@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cybersapient-task
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cybersapient-task
+  template:
+    metadata:
+      labels:
+        app: cybersapient-task
+    spec:
+      containers:
+      - name: cybersapient-task
+        image: umamusicapp/cybersapient-task:latest
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cybersapient-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: cybersapient-task
+  ports:
+    - port: 80
+      targetPort: 3000
+
